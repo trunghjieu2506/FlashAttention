@@ -19,6 +19,9 @@ dependencies = [
     "ruff>=0.15.10",
 ]
 
+[project.scripts]
+transformer-benchmark = "cs336_systems.benchmarking:main"
+
 [build-system]
 requires = ["uv_build>=0.11.6,<0.12"]
 build-backend = "uv_build"
