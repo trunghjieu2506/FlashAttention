@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=matrix_multiply
+#SBATCH --job-name=triton-benchmark
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
@@ -15,15 +15,8 @@
 # module load gcc
 # module load cuda
 
-# Navigate to working directory
-cd $SLURM_SUBMIT_DIR
-
-# Build the program
-make clean
-make
-
-# Run the program
-echo "Running matrix_multiply..."
-./matrix-multiply/testbed
-
-echo "Job completed at $(date)"
+.venv/bin/python -m cs336_systems.benchmarking \
+  --d-model 32 --d-ff 128 --num-layers 2 --num-heads 4 \
+  --batch-size 2 --context-length 16 \
+  --warmup-steps 1 --measure-steps 2 \
+  --mode train --device cpu
